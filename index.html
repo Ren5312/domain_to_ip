@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Domain to IP Translator</title>
+</head>
+<body>
+
+<h2>Domain → IP Address</h2>
+
+<input type="text" id="domain" placeholder="Enter domain (example.com)">
+<button onclick="translateDomain()">Translate</button>
+
+<p id="result"></p>
+
+<script>
+async function translateDomain(){
+
+    let domain = document.getElementById("domain").value;
+
+    let response = await fetch("https://dns.google/resolve?name=" + domain + "&type=A");
+    let data = await response.json();
+
+    if(data.Answer){
+        let ip = data.Answer[0].data;
+        document.getElementById("result").innerHTML = "IP Address: " + ip;
+    } else {
+        document.getElementById("result").innerHTML = "Domain not found.";
+    }
+}
+</script>
+
+</body>
+</html>
